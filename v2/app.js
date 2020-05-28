@@ -1,5 +1,13 @@
 const express                  = require("express"),
-      app                      = express();
+      app                      = express(),
+      methodOverride           = require("method-override"),
+      bodyParser               = require("body-parser");
+
+let mongoose                   = require("mongoose");
+
+
+const Category                 = require("./models/lessonCategories");
+
 
 const indexRoute               = require("./routes/teacher/index"),
       classroomRoute           = require("./routes/teacher/classroom"),
@@ -8,12 +16,12 @@ const indexRoute               = require("./routes/teacher/index"),
       financeRoute             = require("./routes/teacher/finances");
 
 
-
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useUnifiedTopology', true);
+mongoose.connect("mongodb://localhost:27017/e_brain_v2");
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
-
-
-
-
 
 
 

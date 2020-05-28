@@ -2,6 +2,19 @@
 
 <div class="container" style="border: 1px solid black;">
     <h1>classroom</h1>
+    <h5><a href="/teacher/classroom/new">Add a new Lesson Category</a></h5>
+    <% category.forEach((ctgry)=>{%>
+        <div>
+            <img style="width: 50px;" src="<%= ctgry.img %>" alt="picture">
+            <h4><%= ctgry.name %> </h4>
+            <a href="/teacher/classroom/<%= ctgry._id%>" >Show more</a>
+            <a href="/teacher/classroom/<%= ctgry._id%>/edit">Edit</a>
+            <form action="/teacher/classroom/<%= ctgry._id%>?_method=DELETE" method="POST">
+                <button>Delete Category</button>
+            </form>
+            <hr>
+        </div>
+    <% }) %> 
 </div>
 
 <%- include("partials/footer") %>
