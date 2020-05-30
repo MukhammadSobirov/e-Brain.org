@@ -1,0 +1,36 @@
+<%- include("../partials/header") %>
+
+<div class="container" style="border: 1px solid black;">
+    <h1>classroom</h1>
+        <div>
+            <img style="width: 50px;" src="<%= category.img %>" alt="picture">
+            <h4><%= category.name %> </h4>
+        </div>
+        <a href="/teacher/classroom">Back</a>
+
+        <div>
+            <h5>Add class</h5>
+            <form action="/teacher/classroom/<%= category._id %>/lesson" method="POST">
+                <div class="form-group">
+                    <input type="text" name="lesson[picture]" placeholder="picture url" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="lesson[title]" placeholder="title" class="form-control">
+                </div>
+                <button>Submit</button>
+            </form>
+        </div>
+
+        <div>
+            <% category.lesson.forEach((lesson)=>{%>
+                <h4><%= lesson.title %> </h4>
+                <img src="<%=lesson.picture  %> " alt="cover">
+                <a href="/teacher/classroom/<%= category._id %>/lesson/<%= lesson._id %>/edit">Edit</a>
+                <form action="/teacher/classroom/<%= category._id %>/lesson/<%= lesson._id %>?_method=DELETE" method="POST">
+                    <button>Delete</button>
+                </form>
+           <% }) %> 
+        </div>
+</div>
+
+<%- include("../partials/footer") %>
