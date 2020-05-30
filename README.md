@@ -51,21 +51,17 @@
     ```javascript
     let mongoose                    = require("mongoose");
     let Lesson                      = require("./lesson");
-
-```javascript
-let categorySchema = new mongoose.Schema({
-    img: String,
-    name: String,
-+   lesson: [
-    +    {
-       +     type: mongoose.Schema.Types.ObjectId,
-       +     ref: "Lesson"
-     +   }
-   + ]
-});
-
-
-module.exports = mongoose.model("Category", categorySchema);
+    let categorySchema = new mongoose.Schema({
+        img: String,
+        name: String,
+       lesson: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Lesson"
+            }
+        ]
+    });
+    module.exports = mongoose.model("Category", categorySchema);
 
 
 
@@ -76,66 +72,67 @@ module.exports = mongoose.model("Category", categorySchema);
       router                        = express.Router({mergeParams: true}),
       Category                      = require("../../../models/lessonCategories"),
       Lesson                        = require("../../../models/lesson");
-
-//create and read
-router.post("/teacher/classroom/:id/lesson", (req, res)=>{
-    Category.findById(req.params.id, (err, category)=>{
-        if(err){
-            console.log(err);
-            res.redirect("back");
-        }else{
-            Lesson.create(req.body.lesson, (err, lesson) =>{
-                if(err){
-                    console.log(err)
-                }else{
-                    //save class
-                    lesson.save()
-                    category.lesson.push(lesson);
-                    category.save();
-                    res.redirect("/teacher/classroom/" + category._id)
-                }
-            });
-        }
+      
+    ```javascript
+    //create and read
+    router.post("/teacher/classroom/:id/lesson", (req, res)=>{
+        Category.findById(req.params.id, (err, category)=>{
+            if(err){
+                console.log(err);
+                res.redirect("back");
+            }else{
+                Lesson.create(req.body.lesson, (err, lesson) =>{
+                    if(err){
+                        console.log(err)
+                    }else{
+                        //save class
+                        lesson.save()
+                        category.lesson.push(lesson);
+                        category.save();
+                        res.redirect("/teacher/classroom/" + category._id)
+                    }
+                });
+            }
+        });
     });
-});
 
-//update
-router.get("/teacher/classroom/:id/lesson/:lesson_id/edit", (req, res)=>{
-    Lesson.findById(req.params.lesson_id, (err, foundLesson)=>{
-        if (err) {
-            console.log(err)
-            res.redirect("back")
-        }else{
-            res.render("lesson/edit", {category_id: req.params.id, lesson: foundLesson });
-        }
+    //update
+    router.get("/teacher/classroom/:id/lesson/:lesson_id/edit", (req, res)=>{
+        Lesson.findById(req.params.lesson_id, (err, foundLesson)=>{
+            if (err) {
+                console.log(err)
+                res.redirect("back")
+            }else{
+                res.render("lesson/edit", {category_id: req.params.id, lesson: foundLesson });
+            }
+        });
     });
-});
 
-router.put("/teacher/classroom/:id/lesson/:lesson_id", (req, res)=>{
-    Lesson.findByIdAndUpdate(req.params.lesson_id, req.body.lesson, (err, updateLesson)=>{
-        if (err) {
-            res.redirect("back")
-        }else{
-            res.redirect("/teacher/classroom/" + req.params.id)
-        }
+    router.put("/teacher/classroom/:id/lesson/:lesson_id", (req, res)=>{
+        Lesson.findByIdAndUpdate(req.params.lesson_id, req.body.lesson, (err, updateLesson)=>{
+            if (err) {
+                res.redirect("back")
+            }else{
+                res.redirect("/teacher/classroom/" + req.params.id)
+            }
+        })
     })
-})
 
-//destroy
-router.delete("/teacher/classroom/:id/lesson/:lesson_id", (req, res)=>{
-    Lesson.findByIdAndRemove(req.params.lesson_id, (err)=>{
-        if(err){
-            console.log(err);
-            res.redirect("back");
-        }else{
-            res.redirect("/teacher/classroom/" + req.params.id);
-        }
+    //destroy
+    router.delete("/teacher/classroom/:id/lesson/:lesson_id", (req, res)=>{
+        Lesson.findByIdAndRemove(req.params.lesson_id, (err)=>{
+            if(err){
+                console.log(err);
+                res.redirect("back");
+            }else{
+                res.redirect("/teacher/classroom/" + req.params.id);
+            }
+        })
     })
-})
 
 
 
-module.exports = router;
+    module.exports = router;
 
 
 4. Create edit file for lesson in views/lesson/edit.ejs
