@@ -1,4 +1,4 @@
-#v1 Basic Skeleton of the app
+# v1 Basic Skeleton of the app
 
 5 routes:
 "/"
@@ -7,7 +7,7 @@
 "/teacher/finances"
 "/teacher/classroom"
 
-#v2 
+# v2 
 
 1. Made a separate files for each route.
 2. used express.Router() for that.
