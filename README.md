@@ -130,26 +130,63 @@
         })
     })
 
-
-
     module.exports = router;
 
 
 4. Create edit file for lesson in views/lesson/edit.ejs
 
-```javascript
-    <%- include("../partials/header") %>
+    ```javascript
+        <%- include("../partials/header") %>
 
-    <div class="container">
-        <form action="/teacher/classroom/<%= category_id %>/lesson/<%= lesson._id %>?_method=PUT" method="POST">
-            <div class="form-group">
-                <input type="text" name="lesson[picture]" class="form-control" value="<%= lesson.picture %> ">
-            </div>
-            <div class="form-group">
-                <input type="text" name="lesson[title]" class="form-control" value="<%= lesson.title %> ">
-            </div>
-            <button>Edit</button>
-        </form>
-    </div>
+        <div class="container">
+            <form action="/teacher/classroom/<%= category_id %>/lesson/<%= lesson._id %>?_method=PUT" method="POST">
+                <div class="form-group">
+                    <input type="text" name="lesson[picture]" class="form-control" value="<%= lesson.picture %> ">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="lesson[title]" class="form-control" value="<%= lesson.title %> ">
+                </div>
+                <button>Edit</button>
+            </form>
+        </div>
 
-    <%- include("../partials/footer") %>
+        <%- include("../partials/footer") %>
+
+
+# v4 / lesson content / video / text / image 
+
+**Important Notes**
+    ```javascript
+        Route path: /users/:userId/books/:bookId
+        Request URL: http://localhost:3000/users/34/books/8989
+        req.params: { "userId": "34", "bookId": "8989" }
+        ```
+When :id stores any variable we pass in, and returns anything that matches it back. For example we can return a file from a data base (_id) lesson._id.
+
+    ```javascript
+    //video routes
+    router.post("/lesson/:lesson_id/show/video", (req, res)=>{ // here we're calling our id "lesson_id"
+        Lesson.findById(req.params.lesson_id, (err, lesson)=>{ // then we create object where lesson_id is stored, later we store it in 
+            if(err){                                            //callback in lesson variable
+                console.log(err)
+            }else{
+                Video.create(req.body.video, (err, video)=>{
+                    if(err){
+                        console.log(err)
+                    }else{
+                        lesson.videos.push(video);
+                        lesson.save();
+                        res.redirect("/lesson/" + lesson._id + "/show"); //then we access it as lesson._id (_id) comes from db
+                    }
+                });
+            }
+        });
+    });
+    ```
+ **Important Notes**
+ when adding a youtube video link to iframes do this>>>
+ original video link : https://www.youtube.com/watch?v=JW3AZMgegHw
+ change to : https://www.youtube.com/embed/JW3AZMgegHw
+ we need to have it as https://www.youtube.com/embed/VIDEOID
+ **Reg expression might help to change the format while inputing to a form
+  
