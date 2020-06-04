@@ -184,9 +184,9 @@ When :id stores any variable we pass in, and returns anything that matches it ba
     });
     ```
  **Important Notes**
- when adding a youtube video link to iframes do this>>>
- original video link : https://www.youtube.com/watch?v=JW3AZMgegHw
- change to : https://www.youtube.com/embed/JW3AZMgegHw
- we need to have it as https://www.youtube.com/embed/VIDEOID
- **Reg expression might help to change the format while inputing to a form
+ *when adding a youtube video link to iframes do this>>>
+    *original video link : https://www.youtube.com/watch?v=JW3AZMgegHw
+    *change to : https://www.youtube.com/embed/JW3AZMgegHw
+ **we need to have it as https://www.youtube.com/embed/VIDEOID**
+ *Reg expression might help to change the format while inputing to a form
   
