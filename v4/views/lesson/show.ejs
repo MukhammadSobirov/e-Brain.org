@@ -1,0 +1,36 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    
+    <h1><%= lesson.title %></h1>
+
+    <div>
+        <form action="/lesson/<%= lesson._id %>/show/video" method="POST">
+            <div class="form-group">
+                <input type="text" name="video[title]" class="form-control" placeholder="video title">
+            </div>
+            <div class="form-group">
+                <input type="text" name="video[link]" class="form-control" placeholder="video link">
+            </div>
+            <div class="form-group">
+                <textarea name="video[text]"  class="form-control" placeholder="video text"></textarea>
+            </div>
+            <button class="btn btn-success">Submit</button>
+        </form>
+    </div>
+
+
+    <div>
+        <% lesson.videos.forEach((video)=>{ %>
+            <h1><%= video.title %> </h1>
+            <iframe src="<%= video.link %> "
+            width="560" height="315" frameborder="0" allowfullscreen></iframe>
+            <p><%= video.text %></p>
+            <a href="/lesson/<%= lesson._id %>/show/video/<%= video._id %>/edit">Edit</a>
+            <form action="/lesson/<%= lesson._id %>/show/video/<%= video._id %>?_method=DELETE" method="POST">
+                <button>Delete</button>
+            </form>
+        <%})%>
+    </div>
+
+<%- include("../partials/footer") %>
