@@ -183,10 +183,42 @@ When :id stores any variable we pass in, and returns anything that matches it ba
         });
     });
     ```
- **Important Notes**
+ * **Important Notes**
  * when adding a youtube video link to iframes do this>>>
     * original video link : https://www.youtube.com/watch?v=JW3AZMgegHw
     * change to : https://www.youtube.com/embed/JW3AZMgegHw
  **we need to have it as https://www.youtube.com/embed/VIDEOID**
  * Reg expression might help to change the format while inputing to a form
   
+* **Important Notes**
+        * for video update route
+            * Had really hard time iderstanding how to manage IDs
+* **v4>routes>teacher>lesson.js**
+    ```javascript
+    //VIDEO EDIT
+    router.get("/lesson/:lesson_id/show/video/:video_id/edit", (req, res)=>{
+        Lesson.findById(req.params.lesson_id, (err, lesson)=>{
+            if(err){
+                console.log(err)
+            }else{
+                Video.findById(req.params.video_id, (err, video)=>{
+                    if(err){
+                        console.log(err)
+                    }else{
+                        res.render("lesson/content/videoEdit", {lesson_id: req.params.lesson_id, video: video}) //must have line
+                    }                                           //so that we can access it as <%= lesson_id %> in ejs file
+                });
+            }
+        });
+    });
+
+    //UPDATE
+    router.put("/lesson/:lesson_id/show/video/:video_id", (req, res)=>{
+        Video.findByIdAndUpdate(req.params.video_id, req.body.video, (err, video)=>{
+            if(err){
+                console.log(err)
+            }else{
+                res.redirect("/lesson/" + req.params.lesson_id + "/show")
+            }
+        });
+    })
