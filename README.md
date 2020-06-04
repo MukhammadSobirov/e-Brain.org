@@ -191,8 +191,9 @@ When :id stores any variable we pass in, and returns anything that matches it ba
  * Reg expression might help to change the format while inputing to a form
   
 * **Important Notes**
-        * for video update route
-            * Had really hard time iderstanding how to manage IDs
+* for video update route.
+* Had really hard time iderstanding how to manage IDs.
+
 * **v4>routes>teacher>lesson.js**
     ```javascript
     //VIDEO EDIT
