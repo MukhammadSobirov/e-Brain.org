@@ -223,3 +223,7 @@ When :id stores any variable we pass in, and returns anything that matches it ba
             }
         });
     })
+    
+* CRUD for text is finished. Don't like how it works. It add video and texts separately from each other. 
+* Created text model. Which is part of the lesson content. Might be better to create a "Content" model and store text video and pics there. Will dry up the code.
+* Found out that we can populate as many data as we want by .populate("n1").populate("n...").exec()
