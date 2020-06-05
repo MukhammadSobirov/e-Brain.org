@@ -1,6 +1,7 @@
 let mongoose                = require("mongoose");
 
-let Video                   = require("./video");
+let Video                   = require("./video"),
+    Text                    = require("./text");
 
 let lessonSchema = new mongoose.Schema({
     picture: String,
@@ -9,6 +10,12 @@ let lessonSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Video"
+        }
+    ],
+    texts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Text"
         }
     ]
 });

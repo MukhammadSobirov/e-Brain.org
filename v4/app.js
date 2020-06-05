@@ -8,7 +8,8 @@ let mongoose                   = require("mongoose");
 
 const Category                  = require("./models/lessonCategories"),
       Lesson                    = require("./models/lesson"),
-      Video                     = require("./models/video");
+      Text                      = require("./models/video"),
+      Video                     = require("./models/text");
 
 const indexRoute               = require("./routes/teacher/index"),
       classroomRoute           = require("./routes/teacher/classroom"),

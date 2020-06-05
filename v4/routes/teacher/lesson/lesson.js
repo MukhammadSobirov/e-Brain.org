@@ -2,7 +2,8 @@ const express                       = require("express"),
       router                        = express.Router({mergeParams: true}),
       Category                      = require("../../../models/lessonCategories"),
       Lesson                        = require("../../../models/lesson"),
-      Video                         = require("../../../models/video");
+      Video                         = require("../../../models/video"),
+      Text                          = require("../../../models/text");
 
     
 //create and read
@@ -64,7 +65,7 @@ router.delete("/teacher/classroom/:id/lesson/:lesson_id", (req, res)=>{
 
 //lesson content show route
 router.get("/lesson/:lesson_id/show", (req, res)=>{
-    Lesson.findById(req.params.lesson_id).populate("videos").exec((err, lessonShow)=>{
+    Lesson.findById(req.params.lesson_id).populate("videos").populate("texts").exec((err, lessonShow)=>{
         if(err){
             console.log(err)
         }else{
@@ -134,8 +135,65 @@ router.delete("/lesson/:lesson_id/show/video/:video_id", (req, res)=>{
         }
     })
 })
-  
 
+//TEXT ROUTES
+//Text routes
+router.post("/lesson/:lesson_id/show/text", (req, res)=>{
+    Lesson.findById(req.params.lesson_id, (err, lesson)=>{
+        if(err){
+            console.log(err)
+        }else{
+            Text.create(req.body.text, (err, text)=>{
+                if(err){
+                    console.log(err)
+                }else{
+                    lesson.texts.push(text);
+                    lesson.save();
+                    res.redirect("/lesson/" + lesson._id + "/show");
+                }
+            });
+        }
+    });
+});
+
+//Text EDIT
+router.get("/lesson/:lesson_id/show/text/:text_id/edit", (req, res)=>{
+    Lesson.findById(req.params.lesson_id, (err, lesson)=>{
+        if(err){
+            console.log(err)
+        }else{
+            Text.findById(req.params.text_id, (err, text)=>{
+                if(err){
+                    console.log(err)
+                }else{
+                    res.render("lesson/content/textEdit", {lesson_id: req.params.lesson_id, text: text})
+                }
+            });
+        }
+    });
+});
+
+//UPDATE
+router.put("/lesson/:lesson_id/show/text/:text_id", (req, res)=>{
+    Text.findByIdAndUpdate(req.params.text_id, req.body.text, (err, text)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.redirect("/lesson/" + req.params.lesson_id + "/show")
+        }
+    });
+})
+
+//DESTROY ROUTE
+router.delete("/lesson/:lesson_id/show/text/:text_id", (req, res)=>{
+    Text.findByIdAndRemove(req.params.text_id, (err)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.redirect("/lesson/" + req.params.lesson_id + "/show");
+        }
+    })
+})
 
 
 

@@ -4,25 +4,55 @@
     
     <h1><%= lesson.title %></h1>
 
-    <div>
-        <form action="/lesson/<%= lesson._id %>/show/video" method="POST">
-            <div class="form-group">
-                <input type="text" name="video[title]" class="form-control" placeholder="video title">
-            </div>
-            <div class="form-group">
-                <input type="text" name="video[link]" class="form-control" placeholder="video link">
-            </div>
-            <div class="form-group">
-                <textarea name="video[text]"  class="form-control" placeholder="video text"></textarea>
-            </div>
-            <button class="btn btn-success">Submit</button>
-        </form>
+    <div class="row" style="text-align: center;">
+        <div class="col-md-4">
+            <h6>Add video</h6>
+            <form action="/lesson/<%= lesson._id %>/show/video" method="POST">
+                <div class="form-group">
+                    <input type="text" name="video[title]" class="form-control" placeholder="video title">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="video[link]" class="form-control" placeholder="video link">
+                </div>
+                <div class="form-group">
+                    <textarea name="video[text]"  class="form-control" placeholder="video text"></textarea>
+                </div>
+                <button class="btn btn-sm btn-success">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <h6>Add text</h6>
+            <form action="/lesson/<%= lesson._id %>/show/text" method="POST">
+                <div class="form-group">
+                    <input type="text" name="text[title]" class="form-control" placeholder="text title">
+                </div>
+                <div class="form-group">
+                    <textarea name="text[itself]"  class="form-control" placeholder="text text"></textarea>
+                </div>
+                <button class="btn btn-sm btn-success">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <h6>Add picture</h6>
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <input type="text" name="picture[title]" class="form-control" placeholder="picture title">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="picture[link]" class="form-control" placeholder="picture link">
+                </div>
+                <div class="form-group">
+                    <textarea name="picture[text]"  class="form-control" placeholder="picture text"></textarea>
+                </div>
+                <button class="btn btn-sm btn-success">Submit</button>
+            </form>
+        </div>
     </div>
 
 
     <div>
         <% lesson.videos.forEach((video)=>{ %>
-            <h1><%= video.title %> </h1>
+            <h5><%= video.title %> </h5>
             <iframe src="<%= video.link %> "
             width="560" height="315" frameborder="0" allowfullscreen></iframe>
             <p><%= video.text %></p>
@@ -31,6 +61,15 @@
                 <button>Delete</button>
             </form>
         <%})%>
-    </div>
 
+        <% lesson.texts.forEach((text)=>{ %>
+            <h5><%= text.title %> </h5>
+            <p><%= text.itself %></p>
+            <a href="/lesson/<%= lesson._id %>/show/text/<%= text._id %>/edit">Edit</a>
+            <form action="/lesson/<%= lesson._id %>/show/text/<%= text._id %>?_method=DELETE" method="POST">
+                <button>Delete</button>
+            </form>
+        <%})%>
+    </div>
+</div>
 <%- include("../partials/footer") %>
