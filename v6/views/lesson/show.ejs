@@ -1,0 +1,81 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    
+    <h1><%= lesson.title %></h1>
+
+    <div class="row" style="text-align: center;">
+        <div class="col-md-4">
+            <h6>Add video</h6>
+            <form action="/lesson/<%= lesson._id %>/show/content" method="POST">
+                <div class="form-group">
+                    <input type="text" name="content[videoTitle]" class="form-control" placeholder="video title">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="content[videoLink]" class="form-control" placeholder="video link">
+                </div>
+                <div class="form-group">
+                    <textarea name="content[videoText]"  class="form-control" placeholder="video text"></textarea>
+                </div>
+                <button class="btn btn-sm btn-success">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <h6>Add Text</h6>
+            <form action="/lesson/<%= lesson._id %>/show/content" method="POST">
+                <div class="form-group">
+                    <input type="text" name="content[titleText]" class="form-control" placeholder="video title">
+                </div>
+                <div class="form-group">
+                    <textarea name="content[paragraph]"  class="form-control" placeholder="video text"></textarea>
+                </div>
+                <button class="btn btn-sm btn-success">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <h6>Add Picture</h6>
+            <form action="/lesson/<%= lesson._id %>/show/content" method="POST">
+                <div class="form-group">
+                    <input type="text" name="content[pictureTitle]" class="form-control" placeholder="picture title">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="content[pictureLink]" class="form-control" placeholder="picture link">
+                </div>
+                <button class="btn btn-sm btn-success">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div>
+        <% lesson.content.forEach((element)=>{ %>
+            <h5><%= element.videoTitle %> </h5>
+            <% if(element.videoTitle && element.videoTitle.length){%> 
+                <iframe src="<%= element.videoLink %> "
+                width="560" height="315" frameborder="0" allowfullscreen>
+                </iframe>
+            <% } %> 
+            <% if(element.videoText && element.videoText.length){%>
+                <p><%= element.videoText %></p>
+            <% } %>
+            <% if(element.titleText && element.titleText.length){%>
+                <h4><%= element.titleText %> </h4>
+            <% } %>
+            <% if(element.titleText && element.titleText.length){%>
+                <p><%= element.paragraph %></p>
+            <% } %>
+            <% if(element.pictureTitle && element.pictureTitle.length){%>
+                <h4><%= element.pictureTitle %> </h4>
+            <% } %>
+            <% if(element.pictureLink && element.pictureLink.length){%>
+                <img src="<%= element.pictureLink %> " alt="picture">
+            <% } %>
+            <a href="/lesson/<%= lesson._id %>/show/content/<%= element._id %>/edit">Edit</a>
+            <form action="/lesson/<%= lesson._id %>/show/content/<%= element._id %>?_method=DELETE" method="POST">
+                <button>Delete</button>
+            </form>
+        <%})%>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>
