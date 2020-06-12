@@ -232,3 +232,96 @@ When :id stores any variable we pass in, and returns anything that matches it ba
 # V5/ Content db/ refactor routes/ content
 * Storing lesson conent in a single db Content
 * Dry routes
+
+
+# V6 / auth completed
+
+* app.js
+    ```javascript
+            const express                  = require("express"),
+                  app                      = express(),
+                  methodOverride           = require("method-override"),
+ +                bodyParser               = require("body-parser"),
+ +                passport                 = require("passport"),
+ +                localStrategy            = require("passport-local");
+ 
+    ```javascript
+            app.use(require("express-session")({
+                secret: "alohamora",
+                resave: false,
+                saveUninitialized: false
+            }));
+            app.use(passport.initialize());
+            app.use(passport.session());
+            passport.use(new localStrategy((User.authenticate())));
+            passport.serializeUser(User.serializeUser());
+            passport.deserializeUser(User.deserializeUser());
+
+            app.use((req, res, next)=>{
+                res.locals.currentUser = req.user;
+                next();
+            });
+
+
+* models>user.js
+    ```javascript
+            const mongoose                = require("mongoose"),
+              passportLocalMongoose   = require("passport-local-mongoose");
+
+
+        let userSchema = new mongoose.Schema({
+            username: String,
+            password: String
+        });
+
+        userSchema.plugin(passportLocalMongoose);
+
+        module.exports = mongoose.model("User", userSchema);
+        ```
+  
+* routes>auth.js
+
+        ```javascript
+                const express                  = require("express"),
+      passport                 = require("passport"),
+      router                   = express.Router({mergeParams: true});
+
+        let User = require("../models/user");
+
+        //SIGNUP
+        router.get("/signup", (req, res)=>{
+            res.render("signup")
+        });
+
+        router.post("/signup", (req, res)=>{
+            let newUser = new User ({username: req.body.username});
+            User.register(newUser, req.body.password, (err, username)=>{
+                if(err){
+                    console.log(err);
+                    return res.render("signup")
+                }
+                passport.authenticate("local")(req, res, ()=>{
+                    res.redirect("/teacher")
+                });
+            });
+        });
+
+        //LOGIN
+        router.get("/login", (req, res)=>{
+            res.render("login")
+        })
+
+        router.post("/login", passport.authenticate("local",
+        {
+            successRedirect: "/teacher",
+            failureRedirect: "/login"
+        }), (req, res)=>{
+        });
+
+        //LOGOUT
+        router.get("/logout", (req, res)=>{
+            req.logout();
+            res.redirect("/teacher")
+        });
+
+        module.exports = router;
