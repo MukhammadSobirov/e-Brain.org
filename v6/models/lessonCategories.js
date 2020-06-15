@@ -11,7 +11,14 @@ let categorySchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Lesson"
         }
-    ]
+    ],
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
+    }
 });
 
 

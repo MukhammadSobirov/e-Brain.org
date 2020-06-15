@@ -26,11 +26,15 @@ router.post("/teacher/classroom", (req, res)=>{
     let img         = req.body.category.img;
     let name        = req.body.category.name;
     let newCategory = {img: img, name: name};
-    Category.create(newCategory, (err)=>{
+    Category.create(newCategory, (err, category)=>{
         if(err){
             console.log(err);
         }else{
+            category.author.id = req.user._id;
+            category.author.username = req.user.username;
+            category.save();
             res.redirect("/teacher/classroom")
+            //console.log(category)
         }
     });
 });

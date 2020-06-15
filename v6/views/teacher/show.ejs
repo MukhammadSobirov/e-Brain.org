@@ -23,13 +23,15 @@
 
         <div>
             <% category.lesson.forEach((lesson)=>{%>
-                <h4><%= lesson.title %> </h4>
+                <% if(currentUser && lesson.author.id.equals(currentUser._id)){%> 
+                <h4><%= lesson.title %> <span> created by <%= lesson.author.username %> </span> </h4>
                 <img src="<%=lesson.picture  %> " alt="cover">
                 <a href="/lesson/<%= lesson._id %>/show">Show</a>
                 <a href="/teacher/classroom/<%= category._id %>/lesson/<%= lesson._id %>/edit">Edit</a>
                 <form action="/teacher/classroom/<%= category._id %>/lesson/<%= lesson._id %>?_method=DELETE" method="POST">
                     <button>Delete</button>
                 </form>
+            <% } %>
            <% }) %> 
         </div>
 </div>

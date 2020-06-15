@@ -16,6 +16,9 @@ router.post("/teacher/classroom/:id/lesson", (req, res)=>{
                 if(err){
                     console.log(err)
                 }else{
+                    //add author
+                    lesson.author.id = req.user._id;
+                    lesson.author.username = req.user.username;
                     //save class
                     lesson.save()
                     category.lesson.push(lesson);

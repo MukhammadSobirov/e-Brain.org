@@ -7,6 +7,7 @@
     </div>
 
     <% category.forEach((ctgry)=>{%>
+      <% if(currentUser && ctgry.author.id.equals(currentUser._id)){%> 
         <div class="card mb-3" style="max-width: 540px;">
             <div class="row no-gutters">
               <div class="col-md-4">
@@ -19,13 +20,14 @@
               <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title"><%= ctgry.name %></h5>
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  <p class="card-text"><small class="text-muted">created by <%= ctgry.author.username %> </small></p>
                   <a class="btn btn-primary" href="/teacher/classroom/<%= ctgry._id%>" >Show more</a>
                   <hr>
                 </div>
               </div>
             </div>
           </div>
+        <% } %> 
     <% }) %> 
 </div>
 
