@@ -1,0 +1,54 @@
+<%- include("../../partials/header") %>
+
+<div class="container">
+    <h1>Edit</h1>
+    <form action="/lesson/<%= lesson_id %>/show/content/<%= content._id %>?_method=PUT" method="POST">
+        <!-- video edit -->
+        <% if(content.videoTitle && content.videoTitle.length > 0){%>
+        <h6>Edit video</h6>
+        <div class="form-group">
+            <input type="text" name="content[videoTitle]" class="form-control" value="<%= content.videoTitle %> ">
+        </div>
+        <% } %> 
+        <% if(content.videoLink && content.videoLink.length > 0){%>
+        <div class="form-group">
+            <input type="text" name="content[videoLink]" class="form-control" value="<%= content.videoLink %> ">
+        </div>
+        <% } %> 
+        <% if(content.videoText && content.videoText.length > 0){%>
+        <div class="form-group">
+            <textarea name="content[videoText]"  class="form-control"><%= content.videoText %> </textarea>
+        </div>
+        <% } %> 
+
+        <!-- text edit -->
+        <% if(content.titleText && content.titleText.length > 0){%>
+        <h6>Edit text </h6>
+        <div class="form-group">
+            <input type="text" name="content[titleText]" class="form-control" value="<%= content.titleText %> ">
+        </div>
+        <% } %> 
+        <% if(content.paragraph && content.paragraph.length > 0){%>
+        <div class="form-group">
+            <textarea name="content[paragraph]"  class="form-control"><%= content.paragraph %> </textarea>
+        </div>
+        <% } %> 
+
+        <!-- pic edit -->
+        <% if(content.pictureTitle && content.pictureTitle.length > 0){%>
+        <h6>Edit picture </h6>
+        <div class="form-group">
+            <input type="text" name="content[pictureTitle]" class="form-control" value="<%= content.pictureTitle %> ">
+        </div>
+        <% } %> 
+        <% if(content.pictureLink && content.pictureLink.length > 0){%>
+        <div class="form-group">
+            <input type="text" name="content[pictureLink]" class="form-control" value="<%= content.pictureLink %> ">
+        </div>
+        <% } %> 
+        
+        <button class="btn btn-success">Submit</button>
+    </form>
+</div>
+
+<%- include("../../partials/footer") %>
