@@ -325,3 +325,37 @@ When :id stores any variable we pass in, and returns anything that matches it ba
         });
 
         module.exports = router;
+        
+        
+  * Permissions
+    * category.author.id = req.user._id  COMES FROM app.js, WHERE currentUser IS DEFINED
+    * if(currentUser && lesson.author.id.equals(currentUser._id){}  // CHECK IF AN ITEM BELONGS TO A CERTAIN UNIT
+    
+    ```javascript
+        routes>teacher>lesson>>lesson.js
+        //create and read
+            router.post("/teacher/classroom/:id/lesson", (req, res)=>{
+                Category.findById(req.params.id, (err, category)=>{
+                    if(err){
+                        console.log(err);
+                        res.redirect("back");
+                    }else{
+                        Lesson.create(req.body.lesson, (err, lesson) =>{
+                            if(err){
+                                console.log(err)
+                            }else{
+                                //add author
+                                lesson.author.id = req.user._id;                //added
+                                lesson.author.username = req.user.username;     //added
+                                //save class
+                                lesson.save()
+                                category.lesson.push(lesson);
+                                category.save();
+                                res.redirect("/teacher/classroom/" + category._id)
+                            }
+                        });
+                    }
+                });
+            });
+
+* THE SAME AS ABOVE ADDED TO category.js
