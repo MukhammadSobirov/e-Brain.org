@@ -1,0 +1,14 @@
+<%- include("partials/header") %>
+
+
+<div class="container" style="border: 1px solid black;">
+    <h1><%= user.username %> </h1>
+        <div>
+            <img src="<%= user.avatar %> " alt="avatar" style="max-width: 250px;">
+            <h5><%= user.name %> <span><%= user.surname %></span>  </h5>
+            <p><a href="<%= user.email %>"><%= user.email %></a></p>
+        </div>
+        <p><a href="/user/<%= user.id %>/settings ">Settings</a></p>
+</div>
+
+<%- include("partials/footer") %>

@@ -1,0 +1,21 @@
+<%- include("partials/header") %>
+
+
+<div class="container" style="border: 1px solid black;">
+    <h1>Teacher Cabinet</h1> 
+        <% user.forEach((usr)=>{%> 
+            <% if(usr._id.equals(currentUser._id)){ %> 
+                <div>
+                    <h5><%= usr.name %></h5>
+                    <img src="<%= usr.avatar %> " alt="profile photo" style="max-width: 250px">
+                    <p><%= usr.name %> <span><%= usr.surname %> </span> </p>
+                    <p><%= usr.email %> </p>
+                </div>
+                <p><a href="user/<%= usr.id %> ">Profile</a></p>
+            <% } %> 
+        <% }) %> 
+
+</div>
+<% console.log(currentUser) %> 
+<% console.log(user) %> 
+<%- include("partials/footer") %>
